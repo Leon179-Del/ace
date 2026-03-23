@@ -14,14 +14,19 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: #c54b68;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(91, 193, 43);
+}
+.product_img{
+  object-fit: contain;
+  width: 100%;
+  height: 200px;
 }
 
 .App-link {

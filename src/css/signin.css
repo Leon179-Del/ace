@@ -1,0 +1,101 @@
+/* Center ONLY this page (no footer issues) */
+.row {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Signin card ONLY */
+.signin-card {
+  background: linear-gradient(90deg, #1e3a8a, #60a5fa) !important;
+  border-radius: 20px;
+  color: white;
+
+  box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+  border: none;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover animation */
+.signin-card:hover {
+  transform: translateY(-5px);
+
+  background: linear-gradient(270deg, #1e3a8a, #60a5fa, #93c5fd) !important;
+  background-size: 400% 400%;
+  animation: gradientMove 6s ease infinite;
+
+  box-shadow: 0 12px 40px rgba(96, 165, 250, 0.6);
+}
+
+/* Animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Inputs */
+.signin-card .form-control {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Placeholder */
+.signin-card .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Focus glow */
+.signin-card .form-control:focus {
+  background: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 0 8px #93c5fd !important;
+  outline: none;
+}
+
+/* Button */
+.signin-card .btn-primary {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+
+  background: white !important;
+  color: #1e3a8a !important;
+  border: none !important;
+
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.signin-card .btn-primary:hover {
+  background: #e0ecff !important;
+  transform: scale(1.03);
+}
+
+/* Links */
+.signin-card a {
+  color: #dbeafe;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.signin-card a:hover {
+  text-decoration: underline;
+}
+
+/* Messages */
+.text-info {
+  color: #bfdbfe !important;
+}
+
+.text-success {
+  color: #bbf7d0 !important;
+}
+
+.text-danger {
+  color: #fecaca !important;
+}
