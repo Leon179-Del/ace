@@ -47,8 +47,13 @@ const handlesubmit = async (e) =>{
       //if it is successful let a person redirected to another page
 
       // Store user details in local storage
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
+      // ✅ ADD THIS (for navbar login state)
+      localStorage.setItem("token", "logged_in");
+
+      // optional success message
+      setSuccess("Login successful")
 
       navigate("/");
     }

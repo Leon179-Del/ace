@@ -1,34 +1,40 @@
-import Carousel from 'react-bootstrap/Carousel';
-import ExampleCarouselImage from 'components/ExampleCarouselImage';
+import Slider from "react-slick";
+import "../css/carousel.css";
 
-function IndividualIntervalsExample() {
+const Carousel = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: false // Recommended so text doesn't jitter
+  };
+
+  const slides = [
+    { src: "/static/images/third.jpg.jfif", title: "Latest Gadgets", sub: "Explore the new frontier of tech." },
+    { src: "/static/images/first.jpg.webp", title: "Smart Living", sub: "Upgrade your home with AI electronics." },
+    { src: "/static/images/second.jpg.jfif", title: "Exclusive Offers", sub: "Save up to 20% on flagship models." }
+  ];
+
   return (
-    <Carousel>
-      <Carousel.Item interval={1000}>
-        <ExampleCarouselImage text="First slide" />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={500}>
-        <ExampleCarouselImage text="Second slide" />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <ExampleCarouselImage text="Third slide" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+    <div className="carousel-container">
+      <Slider {...settings}>
+        {slides.map((slide, index) => (
+          <div key={index} className="slide-item">
+            <img src={slide.src} alt={slide.title} className="carousel-img" />
+            <div className="carousel-caption">
+              <h2>{slide.title}</h2>
+              <p>{slide.sub}</p>
+              <button className="shop-btn">Shop Now</button>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
   );
-}
+};
 
-export default IndividualIntervalsExample;
+export default Carousel;

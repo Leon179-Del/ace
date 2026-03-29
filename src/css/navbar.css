@@ -65,7 +65,7 @@
 
 /* Logo image */
 .nav-logo-img {
-  height: 40px;   /* 🔥 controls size */
+  height: 40px;   /*  controls size */
   width: auto;
   border-radius: 6px;
 }
@@ -75,4 +75,49 @@
   color: #60a5fa;
   font-weight: bold;
   font-size: 18px;
+}
+.nav-link.active {
+  font-weight: bold;
+  color: #0d6efd !important;
+  border-bottom: 2px solid #0d6efd;
+}
+/* mobile menu icon */
+.menu-icon {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* mobile styles */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    width: 100%;
+    flex-direction: column;
+    display: none;
+    padding: 20px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-btn {
+    margin: 10px 0;
+  }
+}
+.nav-user {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(45deg, #ff9800, #ff5722);
+  padding: 6px 12px;
+  border-radius: 20px;
 }

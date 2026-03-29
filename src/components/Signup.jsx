@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/signup.css';
 
 
@@ -16,6 +16,8 @@ const [loading, setLoading] = useState("");
 const [success, setSuccess] =useState("");
 const [error, setError] =useState("");
 
+// ✅ add navigate hook
+const navigate = useNavigate();
 
 
 //below is a function that will handle the submit action
@@ -45,15 +47,23 @@ try{
   //just in case everything goes on well update the success hook with a message
   setSuccess(response.data.message)
 
+  //  AUTO LOGIN AFTER SIGNUP
+ localStorage.setItem("user", JSON.stringify({
+  username: username,
+  email: email
+}));
+
+  localStorage.setItem("token", "logged_in");
+  localStorage.setItem("role", "user");
+
   //clear your hooks
   setUsername("");
   setEmail("");
   setPassword("");
   setPhone("");
 
-
-
-
+  // ✅ redirect to home
+  navigate("/");
 
 }
 catch(error){
@@ -66,11 +76,6 @@ catch(error){
 
 }
 
- <div className="App">
-      <header className="App-header">
-       <h2>Welcome to Ace - lets win Together</h2>
-      </header>
-    </div>
 }
 
 
@@ -84,8 +89,6 @@ catch(error){
       <h4 className='text-danger'>{error}</h4>
 
       <form onSubmit={handleSubmit}>
-
-
 
         <input type="text"
         placeholder='Enter the username'
@@ -130,7 +133,6 @@ catch(error){
 
         <input type="submit" value="Signup" className='btn btn-primary' />
          Already have an Account? <Link to={'/signin'}>Signin</Link> 
-
 
       </form>
    </div>

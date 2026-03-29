@@ -1,0 +1,65 @@
+.carousel-container {
+  width: 100%;
+  margin: auto;
+  position: relative;
+}
+
+.slide-item {
+  position: relative; /* Essential for absolute positioning of text */
+}
+
+.carousel-img {
+  width: 100%;
+  height: 450px; /* Increased height for better text space */
+  object-fit: cover;
+  display: block;
+}
+
+/* The Text Overlay */
+.carousel-caption {
+  position: absolute;
+  bottom: 15%; /* Positions text near the bottom */
+  left: 5%;
+  color: white;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Makes text pop */
+  z-index: 10;
+  max-width: 50%;
+}
+
+.carousel-caption h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.carousel-caption p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Call to Action Button */
+.shop-btn {
+  padding: 10px 25px;
+  background-color: #007bff; /* Electronic blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.shop-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Slick Dots styling to make them visible on images */
+.slick-dots {
+  bottom: 20px !important;
+}
+
+.slick-dots li button:before {
+  color: white !important;
+  font-size: 12px !important;
+}

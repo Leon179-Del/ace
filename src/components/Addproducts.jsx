@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Loader from './Loader';
 import axios from 'axios';
 import "../css/addproduct.css";
+import Searchbar from './Searchbar';
 
 const Addproducts = () => {
 
@@ -65,6 +66,7 @@ const Addproducts = () => {
         <h3 className='text-info'>Upload Your Products</h3>
 
         {loading && <Loader />}
+        <Searchbar />
 
         {/* Success */}
         <h3 className={`success-msg ${success ? "show" : ""}`}>

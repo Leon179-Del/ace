@@ -10,6 +10,9 @@ import Makepayment from './components/Makepayment';
 import './css/global.css';
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer.jsx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 
 function App() {
@@ -18,18 +21,22 @@ function App() {
       <div className="App">
         
   
-        {/* ✅ Navbar goes here */}
+        {/*  Navbar goes here */}
         <Navbar />
 
         {/* Routes ONLY contain Route */}
         <Routes>
           <Route path='/' element={<Getproducts />} />
-          <Route path='/addproducts' element={<Addproducts />} />
+
+         
+        
+
+
           <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin />} />
-          <Route path='/makepayment' element={<Makepayment />} />
           <Route path='*' element={<Notfound />} />
         </Routes>
+
         <Footer />
 
       </div>

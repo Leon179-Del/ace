@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Loader from './Loader'
 import { useLocation, useNavigate } from 'react-router-dom';
+import Carousel from "./Carousel";
 
 const Getproducts = () => {
 
@@ -59,8 +60,12 @@ const{product} = useLocation().state || {}
 
 
   return (
+   
+  
+
     <div className='row'>
-      <h3 className='text-primary '>Available Electronics</h3>
+      <Carousel />
+      <h3 className='text-warning '>Shop With Us!</h3>
       {loading && <Loader/> }
       <h4 className='text-danger'> {error} </h4>
       
