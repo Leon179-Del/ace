@@ -1,119 +1,100 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Removed useLocation
 import Loader from './Loader';
+import { useCart } from './CartContext'; // 1. Import your Cart Hook
 
 const Makepayment = () => {
-
-    //destructure the details passed from Getproducts component
-    //The Uselocation hook allows us to get/destruction the properties passed from the previous component.
-    const {product} = useLocation().state || {}
-
-
-
+    // 2. Access the global cart and total instead of location state
+    const { cart, cartTotal } = useCart();
     const navigate = useNavigate()
-    // console.log("The products details are:",products)
-    // below we specify the image base url
-const img_url = "https://leonlangat.alwaysdata.net/static/images/"
 
-//initialize hooks to manage the state of your application
-const[number,setNumber] = useState("");
- const [loading, setLoading] =useState(false);
-  const [success, setSuccess] =useState("");
-  const [error, setError] =useState("");
-//create a function that will handle the submit action
-const handlesubmit = async (e) =>{
-    //prevent the site from reloading
-    e.preventDefault()
+    const img_url = "https://leonlangat.alwaysdata.net/static/images/"
 
-    //update the loading hook
-    setLoading(true)
+    // Hooks to manage state
+    const [number, setNumber] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
 
-    try{
-        // create a form data object
-        const formdata = new FormData()
+    const handlesubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setSuccess("")
+        setError("")
 
-        //append the data to the new form
-        formdata.append("phone", number)
-        formdata.append("amount", product.product_cost)
+        try {
+            const formdata = new FormData()
+            // 3. Send the phone number and the TOTAL from the tray
+            formdata.append("phone", number)
+            formdata.append("amount", cartTotal) 
 
-        const response = await axios.post("https://kbenkamotho.alwaysdata.net/api/mpesa_payment", formdata)
+            const response = await axios.post("https://kbenkamotho.alwaysdata.net/api/mpesa_payment", formdata)
 
-        //set loading back to default
-        setLoading(false)
-
-        //update the success hook with the message
-        setSuccess(response.data.message)
-        
+            setLoading(false)
+            setSuccess(response.data.message || "STK Push sent successfully!")
+        }
+        catch (error) {
+            setLoading(false)
+            setError(error.response?.data?.message || "Payment request failed. Try again.")
+        }
     }
-    catch(error){
-        //if there is an error respond to the error
-        setLoading(false)
 
-        //update the error hook with the error message
-        setError(error.message)
-
-}
-
-}
-
-
-
-
-  return (
-    <div className='row justify-content-center'>
-        
-
-
-        <h1 className="text-warning">Make Payment - Lipa na Mpesa</h1>
-        <div className="col-md-1">
-            <input type="button"
-            className='btn btn-primary'
-            value="<- Back"
-            onClick={() => navigate("/")} />
-        </div>
-
-        
-
-        <div className="col-md-6 card shadow p-4">
-            <img src={img_url + product.product_photo} alt="procuct name" className='product_img' />
-        
-        <div className="card-body">
-            <h2 className="text-info"> {product.product_name}</h2>
-
-            <p className="text-black">{product.product_description}</p>
-            <b className="text-warning">Ksh{product.product_cost}</b> <br />
-            
-            <form onSubmit={handlesubmit}>
-                {/* bind the loading hook */}
-                {loading && <Loader />}
-
-                <h3 className="text-success">{success}</h3>
-                <h4 className='text-danger'>{error}</h4>
-
+    return (
+        <div className='container mt-4'>
+            <div className='row justify-content-center'>
+                <h1 className="text-warning text-center mb-4">Make Payment - Lipa na Mpesa</h1>
                 
-                <input type="number" 
-                className='form-control'
-                placeholder='Enter the Phone Number 254xxxxxxxxx'
-                required
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                <div className="col-md-8 card shadow p-4 bg-dark text-white">
+                    <div className="row">
+                        {/* Summary of Items in Tray */}
+                        <div className="col-md-6 border-end">
+                            <h4 className="text-info">Order Summary</h4>
+                            <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                                {cart.map((item, index) => (
+                                    <div key={index} className="d-flex align-items-center mb-2 border-bottom pb-2">
+                                        <img src={img_url + item.product_photo} alt="" style={{ width: '50px', height: '50px', borderRadius: '5px' }} />
+                                        <div className="ms-3">
+                                            <p className="mb-0 small">{item.product_name}</p>
+                                            <b className="text-warning small">Ksh {item.product_cost}</b>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <hr />
+                            <h3>Total: <span className="text-warning">Ksh {cartTotal.toLocaleString()}</span></h3>
+                        </div>
 
-                /> <br />
-                {/* {number} */}
-                
-                <input type="submit"
-                value="Make Payment"
-                className='btn btn-success'
-                />
-   
-            </form>
-     </div>
+                        {/* Payment Form */}
+                        <div className="col-md-6">
+                            <form onSubmit={handlesubmit} className="mt-3">
+                                {loading && <Loader />}
+                                {success && <h3 className="alert alert-success p-2 fs-6">{success}</h3>}
+                                {error && <h4 className='alert alert-danger p-2 fs-6'>{error}</h4>}
 
+                                <label className="mb-2">Enter M-Pesa Phone Number:</label>
+                                <input type="number" 
+                                    className='form-control mb-3'
+                                    placeholder='2547XXXXXXXX'
+                                    required
+                                    value={number}
+                                    onChange={(e) => setNumber(e.target.value)}
+                                />
+                                
+                                <button type="submit" className='btn btn-success w-100 fw-bold mb-3'>
+                                    Pay Ksh {cartTotal.toLocaleString()}
+                                </button>
+
+                                <button type="button" className='btn btn-outline-light w-100' onClick={() => navigate("/")}>
+                                    Back to Shop
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-    </div>
-  )
+    )
 }
 
 export default Makepayment;
