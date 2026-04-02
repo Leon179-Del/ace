@@ -1,11 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaHome, FaPlus, FaCreditCard, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaUser, FaBars } from "react-icons/fa";
+import { 
+  FaHome, FaPlus, FaCreditCard, FaSignInAlt, 
+  FaUserPlus, FaSignOutAlt, FaUser, FaBars, FaShoppingCart 
+} from "react-icons/fa";
 import "../css/navbar.css";
 import { useState } from "react";
+// 1. Import the cart hook
+import { useCart } from "./CartContext";
 
 const Navbar = () => {
-
   const navigate = useNavigate();
+  
+  // 2. Access the global cart state
+  const { cart } = useCart();
 
   const isLoggedIn = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
@@ -23,7 +30,6 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      
       <div className="nav-logo">
         <img 
           src="static/images/logo.png" 
@@ -39,7 +45,6 @@ const Navbar = () => {
       </div>
 
       <div className={`nav-links ${isOpen ? "active" : ""}`}>
-
         <NavLink 
           to="/" 
           end
@@ -70,6 +75,21 @@ const Navbar = () => {
         >
           <FaCreditCard /> Payment
         </NavLink>
+
+        {/* 3. FIXED: Cart Icon now navigates to the full CartPage */}
+        <button 
+          className="nav-btn cart-toggle-btn" 
+          onClick={() => navigate('/cart')}
+          style={{ position: 'relative', background: 'transparent', border: 'none' }}
+        >
+          <FaShoppingCart />
+          {/* The badge automatically shows the number of items in your global cart */}
+          {cart.length > 0 && (
+            <span className="cart-badge-count">
+              {cart.length}
+            </span>
+          )}
+        </button>
 
         {!isLoggedIn ? (
           <>
@@ -102,7 +122,6 @@ const Navbar = () => {
             </button>
           </>
         )}
-
       </div>
     </nav>
   );

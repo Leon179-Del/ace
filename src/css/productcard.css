@@ -1,0 +1,128 @@
+/* --- 1. Container and Title --- */
+.products-wrapper {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-title {
+  color: #fbbf24;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 50px;
+  /* Glowing text effect */
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.2);
+}
+
+/* --- 2. The Product Card --- */
+.custom-product-card {
+  /* Lighter brown than the body to make it stand out */
+  background: #2d1b18 !important; 
+  border: 1px solid rgba(251, 191, 36, 0.15) !important;
+  border-radius: 20px !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Deep shadow to create lift */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 3. Hover Effects (The "Stand Out" Logic) --- */
+.custom-product-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  /* The Glowing Shadow you requested */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 
+              0 0 25px rgba(251, 191, 36, 0.4); 
+  border-color: #fbbf24 !important;
+}
+
+/* Image Container */
+.product-img-container {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03); /* Subtle contrast for the photo */
+}
+
+.product_img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.custom-product-card:hover .product_img {
+  transform: scale(1.1) rotate(2deg);
+}
+
+/* --- 4. Card Content --- */
+.custom-card-body {
+  padding: 20px !important;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-name {
+  color: #fbbf24 !important;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.product-desc {
+  color: #d6bca0 !important; /* Soft Tan/Cream */
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.product-price {
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin: 10px 0 20px 0;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+}
+
+/* --- 5. The Add to Cart Button --- */
+.purchase-btn {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+  color: #1a0f0d !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
+.purchase-btn:hover {
+  background: #ffffff !important;
+  color: #1a0f0d !important;
+  box-shadow: 0 0 20px #fbbf24, 0 0 40px rgba(251, 191, 36, 0.6) !important;
+  transform: translateY(-2px);
+}
+
+.purchase-btn:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-img-container { height: 180px; }
+  .shop-title { font-size: 1.8rem; }
+}

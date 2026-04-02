@@ -1,4 +1,23 @@
 body {
   margin: 0;
-  background: linear-gradient(135deg, #022c22, #56c2a4, #07978b);
+  padding: 0;
+  min-height: 100vh;
+  /* Start with a deep base color */
+  background-color: #1a0f0d; 
+  /* Animate the radial focus point */
+  background: radial-gradient(circle at 50% 50%, #2c1e1a 0%, #1a0f0d 100%);
+  background-size: 200% 200%;
+  animation: bg-breathe 15s ease infinite;
+}
+
+@keyframes bg-breathe {
+  0% {
+    background-position: 50% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 50% 50%;
+  }
 }

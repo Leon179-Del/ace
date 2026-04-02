@@ -1,123 +1,209 @@
-/* Navbar container */
+/* --- 1. Global Navbar Container --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 15px 30px;
-
-  background: linear-gradient(90deg, #0f172a, #1e3a8a);
-
-  box-shadow: 0 4px 20px rgba(96, 165, 250, 0.2);
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #1a0f0d 0%, #2c1e1a 100%);
+  border-bottom: 2px solid #fbbf24;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
 }
 
-/* Logo */
-.logo {
-  color: #60a5fa;
-  margin: 0;
-  font-weight: bold;
-}
-
-/* Links container */
-.nav-links {
-  display: flex;
-  gap: 15px;
-}
-
-/* Buttons */
-.nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  padding: 8px 14px;
-  border-radius: 10px;
-
-  text-decoration: none;
-  color: white;
-
-  background: rgba(96, 165, 250, 0.15);
-  transition: all 0.3s ease;
-}
-
-/* Hover effect */
-.nav-btn:hover {
-  background: rgba(96, 165, 250, 0.4);
-  transform: translateY(-2px);
-}
-
-/* Special signup button */
-.signup {
-  background: #60a5fa;
-  color: #020617;
-  font-weight: bold;
-}
-
-.signup:hover {
-  background: #93c5fd;
-}
-/* Logo container */
+/* --- 2. Logo Section --- */
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Logo image */
+.nav-logo:hover { transform: scale(1.08); }
+
 .nav-logo-img {
-  height: 40px;   /*  controls size */
+  height: 45px;
   width: auto;
-  border-radius: 6px;
+  border-radius: 8px;
+  filter: sepia(0.3) contrast(1.1) drop-shadow(0 0 5px rgba(251, 191, 36, 0.4));
+  transition: filter 0.3s ease;
 }
 
-/* Optional text */
 .nav-logo span {
-  color: #60a5fa;
-  font-weight: bold;
-  font-size: 18px;
+  color: #fbbf24;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
 }
-.nav-link.active {
-  font-weight: bold;
-  color: #0d6efd !important;
-  border-bottom: 2px solid #0d6efd;
+
+/* --- 3. Navigation Links & Buttons --- */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
-/* mobile menu icon */
-.menu-icon {
-  display: none;
-  font-size: 24px;
+
+.nav-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fef3c7; 
+  font-weight: 600;
+  transition: all 0.4s ease;
+  background: transparent;
+  border: none;
   cursor: pointer;
 }
 
-/* mobile styles */
+.nav-btn:hover {
+  color: #ffffff;
+  background: rgba(251, 191, 36, 0.15);
+  text-shadow: 0 0 8px #fbbf24;
+  transform: translateY(-2px);
+}
+
+/* --- 4. The "Hyper-Glow" Signup Button --- */
+.signup {
+  background: #fbbf24;
+  color: #1a0f0d !important;
+  font-weight: 800;
+  box-shadow: 0 0 10px #fbbf24, 0 0 20px rgba(251, 191, 36, 0.4);
+}
+
+.signup:hover {
+  background: #ffffff;
+  box-shadow: 0 0 20px #fbbf24, 0 0 40px #fbbf24;
+}
+
+/* --- 5. User Badge --- */
+.nav-user {
+  margin-right: 15px;
+  font-weight: bold;
+  color: #fbbf24;
+  background: #1a0f0d;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 2px solid #fbbf24;
+}
+
+/* --- 7. NEW: Cart Toggle Button & Badge --- */
+.cart-toggle-btn {
+  font-size: 1.4rem !important; /* Make the icon slightly larger */
+  color: #fbbf24 !important;
+  padding: 10px !important;
+  transition: transform 0.3s ease, color 0.3s ease !important;
+}
+
+.cart-toggle-btn:hover {
+  color: #ffffff !important;
+  transform: scale(1.2) rotate(-5deg) !important;
+}
+
+.cart-badge-count {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #ff4d4d; /* Sharp red notification */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #1a0f0d; /* Border to pop against the dark nav */
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+  pointer-events: none; /* Badge doesn't interfere with clicks */
+}
+
+/* --- 6. Mobile Responsiveness --- */
+.menu-icon {
+  display: none;
+  font-size: 28px;
+  color: #fbbf24;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
-  .menu-icon {
-    display: block;
-  }
+  .menu-icon { display: block; }
 
   .nav-links {
     position: absolute;
-    top: 60px;
-    right: 0;
-    background: white;
-    width: 100%;
+    top: 75px;
+    right: 20px;
+    background: #2c1e1a;
+    width: 260px;
     flex-direction: column;
     display: none;
-    padding: 20px;
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px solid #fbbf24;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   }
 
   .nav-links.active {
     display: flex;
-  }
-
-  .nav-btn {
-    margin: 10px 0;
+    animation: reveal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
 }
-.nav-user {
-  margin-right: 10px;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(45deg, #ff9800, #ff5722);
-  padding: 6px 12px;
-  border-radius: 20px;
+/* The main container for your selections */
+.cart-selection-bar {
+  background: #2c1e1a; /* Espresso matching your theme */
+  border-bottom: 2px solid #fbbf24;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  overflow-x: auto; /* Allow scrolling if more than 6 items */
+  white-space: nowrap;
+}
+
+/* Individual item wrapper */
+.cart-item-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+  max-width: 120px;
+}
+
+/* Make the images small */
+.cart-item-mini img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #fbbf24;
+}
+
+/* Small text for name and price */
+.mini-item-info {
+  font-size: 0.75rem;
+  color: #fef3c7;
+  text-align: center;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.mini-remove-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  font-size: 0.6rem;
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin-top: 2px;
+  cursor: pointer;
 }
