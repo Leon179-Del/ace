@@ -14,9 +14,9 @@ const Carousel = () => {
   };
 
   const slides = [
-    { src: "/static/images/third.jpg.jfif", title: "Latest Gadgets", sub: "Explore the new frontier of tech." },
-    { src: "/static/images/first.jpg.webp", title: "Smart Living", sub: "Upgrade your home with AI electronics." },
-    { src: "/static/images/second.jpg.jfif", title: "Exclusive Offers", sub: "Save up to 20% on flagship models." }
+    { src: "/static/images/ady-teenagerinro-sQ0xXxQdfeY-unsplash.jpg", title: "Latest Gadgets", sub: "Explore the new frontier of tech." },
+    { src: "/static/images/julian-o-hayon-Bs-zngH79Ds-unsplash.jpg", title: "Smart Living", sub: "Upgrade your home with AI electronics." },
+    { src: "/static/images/onur-binay-_RpPMkqTTTg-unsplash.jpg", title: "Exclusive Offers", sub: "Save up to 20% on flagship models." }
   ];
 
   return (

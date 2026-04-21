@@ -35,7 +35,7 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Quick Links</h4>
           <Link to="/">Home</Link>
-          <Link to="/addproducts">Add Products</Link>
+          {/* <Link to="/addproducts">Add Products</Link> */}
           <Link to="/makepayment">Make Payment</Link>
           <Link to="/signup">Signup</Link>
         </div>
