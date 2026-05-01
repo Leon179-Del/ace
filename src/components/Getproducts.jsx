@@ -22,7 +22,7 @@ const[error,setError] = useState ("");
 const navigate = useNavigate()
 
 // below we specify the image base url
-const img_url = "https://leonlangat.alwaysdata.net/static/images/"
+const img_url = "https://aceelectronics.alwaysdata.net/static/images/"
 
 //create a function to help you fetch the products from your API
 const fetchProducts = async() =>{
@@ -32,7 +32,7 @@ const fetchProducts = async() =>{
       setLoading(true)
 
       //5.Interact with your endpoint for fetching the product
-      const response = await axios.get("https://leonlangat.alwaysdata.net/api/get_product")
+      const response = await axios.get("https://aceelectronics.alwaysdata.net/api/get_product")
       //6.update the products hook with the response given from the API
       setProducts(response.data)
       //7.set the loading hook back to default

@@ -32,7 +32,7 @@ const Addproducts = () => {
       formdata.append("product_photo", product_photo);
 
       const response = await axios.post(
-        "https://leonlangat.alwaysdata.net/api/add_product",
+        "aceelectronics.alwaysdata.net",
         formdata
       );
 

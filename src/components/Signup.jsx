@@ -39,7 +39,7 @@ try{
   formdata.append("phone", phone)
 
   //by use of axios we can access the method post
-  const response =await axios.post("https://leonlangat.alwaysdata.net/api/signup",formdata)
+  const response =await axios.post("https://aceelectronics.alwaysdata.net/api/signup",formdata)
 
   //set back the loading to default
   setLoading("")

@@ -9,7 +9,7 @@ const Makepayment = () => {
     const { cart, cartTotal } = useCart();
     const navigate = useNavigate()
 
-    const img_url = "https://leonlangat.alwaysdata.net/static/images/"
+    const img_url = "https://aceelectronics.alwaysdata.net/static/images/"
 
     // Hooks to manage state
     const [number, setNumber] = useState("");
@@ -29,7 +29,7 @@ const Makepayment = () => {
             formdata.append("phone", number)
             formdata.append("amount", cartTotal) 
 
-            const response = await axios.post("https://kbenkamotho.alwaysdata.net/api/mpesa_payment", formdata)
+            const response = await axios.post("https://aceelectronics.alwaysdata.net/api/mpesa_payment", formdata)
 
             setLoading(false)
             setSuccess(response.data.message || "STK Push sent successfully!")

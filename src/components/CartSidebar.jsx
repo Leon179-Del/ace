@@ -21,7 +21,7 @@ const CartSidebar = () => {
         ) : (
           cart.map((item) => (
             <div key={item.id} className="cart-item-mini">
-              <img src={`https://leonlangat.alwaysdata.net/static/images/${item.product_photo}`} alt="" />
+              <img src={`https://aceelectronics.alwaysdata.net/static/images/${item.product_photo}`} alt="" />
               <div className="item-info">
                 <h5>{item.product_name}</h5>
                 <p>Ksh {item.product_cost}</p>

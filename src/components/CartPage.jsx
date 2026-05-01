@@ -46,7 +46,7 @@ const CartPage = () => {
               
               <div style={{ width: '120px', marginRight: '20px' }}>
                 <img 
-                  src={`https://leonlangat.alwaysdata.net/static/images/${item.product_photo}`} 
+                  src={`https://aceelectronics.alwaysdata.net/static/images/${item.product_photo}`} 
                   alt={item.product_name} 
                   className="img-fluid rounded" 
                   style={{ border: '1px solid rgba(251, 191, 36, 0.3)', boxShadow: '0 0 10px rgba(0,0,0,0.5)' }}
