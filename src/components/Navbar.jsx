@@ -1,7 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { 
   FaHome, FaPlus, FaCreditCard, FaSignInAlt, 
-  FaUserPlus, FaSignOutAlt, FaUser, FaBars, FaShoppingCart 
+  FaUserPlus, FaSignOutAlt, FaUser, FaBars, FaShoppingCart,
+  FaTruck // Added for delivery
 } from "react-icons/fa";
 import "../css/navbar.css";
 import { useState } from "react";
@@ -74,6 +75,16 @@ const Navbar = () => {
           }
         >
           <FaCreditCard /> Payment
+        </NavLink>
+
+        {/* New Delivery Link */}
+        <NavLink 
+          to="/delivery" 
+          className={({ isActive }) => 
+            "nav-btn " + (isActive ? "active" : "")
+          }
+        >
+          <FaTruck /> Delivery
         </NavLink>
 
         {/* 3. FIXED: Cart Icon now navigates to the full CartPage */}

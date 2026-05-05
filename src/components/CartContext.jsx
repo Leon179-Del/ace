@@ -9,22 +9,18 @@ export const CartProvider = ({ children }) => {
   // Add item to cart
   const addToCart = (product) => {
     setCart((prev) => {
-      // Use product_id to match your database structure
       const existingItem = prev.find(item => item.product_id === product.product_id);
       
       if (existingItem) {
-        // If it exists, increase quantity
         return prev.map(item => 
           item.product_id === product.product_id 
             ? { ...item, quantity: (item.quantity || 1) + 1 } 
             : item
         );
       }
-      // If it's new, spread the previous array AND add the new product object
       return [...prev, { ...product, quantity: 1 }];
     });
     
-    // Slide the sidebar open so the user sees the success
     setIsCartOpen(true);
   };
 
@@ -33,17 +29,19 @@ export const CartProvider = ({ children }) => {
     setCart((prev) => prev.filter(item => item.product_id !== productId));
   };
 
-  // Clear cart (Use this after a successful payment)
+  // Clear cart
   const clearCart = () => {
     setCart([]);
   };
 
-  // Calculate Total - ensuring we parse the cost as a number
-  const cartTotal = cart.reduce((total, item) => {
-    const cost = parseFloat(item.product_cost) || 0;
-    const qty = item.quantity || 1;
-    return total + (cost * qty);
-  }, 0);
+  // CHANGED: Wrapped the logic in a function called getCartTotal
+  const getCartTotal = () => {
+    return cart.reduce((total, item) => {
+      const cost = parseFloat(item.product_cost) || 0;
+      const qty = item.quantity || 1;
+      return total + (cost * qty);
+    }, 0);
+  };
 
   return (
     <CartContext.Provider value={{ 
@@ -51,7 +49,7 @@ export const CartProvider = ({ children }) => {
       addToCart, 
       removeFromCart, 
       clearCart,
-      cartTotal, 
+      getCartTotal, // Exported as a function now
       isCartOpen, 
       setIsCartOpen 
     }}>

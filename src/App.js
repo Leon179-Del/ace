@@ -13,6 +13,7 @@ import Footer from "./components/Footer.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CartPage from './components/CartPage'; 
+import Delivery from './components/Delivery'; // 1. Import your new component
 
 // 1. FIXED: Pointing to the correct folder (/components/)
 import { CartProvider } from './components/CartContext.jsx';
@@ -32,11 +33,16 @@ function App() {
             <Route path='/cart' element={<CartPage />} />
             <Route path='/makepayment' element={<Makepayment />} />
             
+            {/* 2. New Route for Delivery */}
+            <Route path='/delivery' element={<Delivery />} />
+
             {/* 2. PROTECTED ROUTE: Only renders Addproducts if user is admin */}
-            <Route 
+            {/* <Route 
               path='/addproducts' 
               element={isAdmin ? <Addproducts /> : <Navigate to="/" />} 
-            />
+            /> */}
+
+            <Route path='/addproducts' element={<Addproducts />} />
 
             <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin />} />
