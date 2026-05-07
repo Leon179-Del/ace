@@ -90,16 +90,17 @@ const{product} = useLocation().state || {}
 
             {/* Total and Checkout button on the right */}
             <div className="ms-auto d-flex align-items-center">
-               <div className="me-3 text-white d-none d-md-block">
-                  Total: <span style={{color: '#fbbf24'}}>Ksh {cartTotal.toLocaleString()}</span>
-               </div>
-               <button 
-                 className="signup" 
-                 style={{ padding: '8px 20px', fontSize: '0.8rem' }}
-                 onClick={() => navigate('/cart')}
-               >
-                 VIEW CART
-               </button>
+                <div className="me-3 text-white d-none d-md-block">
+                  {/* FIX: Added optional chaining and fallback for cartTotal */}
+                  Total: <span style={{color: '#fbbf24'}}>Ksh {cartTotal?.toLocaleString() || "0"}</span>
+                </div>
+                <button 
+                  className="signup" 
+                  style={{ padding: '8px 20px', fontSize: '0.8rem' }}
+                  onClick={() => navigate('/cart')}
+                >
+                  VIEW CART
+                </button>
             </div>
           </div>
         </div>
@@ -129,10 +130,12 @@ const{product} = useLocation().state || {}
               <h5 className='product-name'> {product.product_name} </h5>
               
               <p className='product-desc'> 
-                {product.product_description.slice(0,80)}... 
+                {/* FIX: Added check to ensure description exists before slicing */}
+                {product.product_description ? product.product_description.slice(0,80) : "No description available"}... 
               </p>
 
-              <h4 className="product-price">Ksh {product.product_cost} </h4>
+              {/* FIX: Added optional chaining to ensure product_cost exists before formatting */}
+              <h4 className="product-price">Ksh {Number(product.product_cost)?.toLocaleString() || "0"} </h4>
               
               {/* Updated button to add items to the cart instead of navigating away immediately */}
               <button 

@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // 1. Added Navigate
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Getproducts from './components/Getproducts';
 import Addproducts from './components/Addproducts.jsx';
 import Signup from './components/Signup';
@@ -13,13 +13,12 @@ import Footer from "./components/Footer.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CartPage from './components/CartPage'; 
-import Delivery from './components/Delivery'; // 1. Import your new component
-
-// 1. FIXED: Pointing to the correct folder (/components/)
+import Delivery from './components/Delivery';
 import { CartProvider } from './components/CartContext.jsx';
+import ChatBot from './components/Chatbot.jsx'; 
+import Service from './components/Service';
 
 function App() {
-  // Helper to check admin status
   const isAdmin = localStorage.getItem("role") === "admin";
 
   return (
@@ -29,25 +28,19 @@ function App() {
           <Navbar />
 
           <Routes>
+            <Route path="/installations" element={<Service />} />
             <Route path='/' element={<Getproducts />} />
             <Route path='/cart' element={<CartPage />} />
             <Route path='/makepayment' element={<Makepayment />} />
-            
-            {/* 2. New Route for Delivery */}
             <Route path='/delivery' element={<Delivery />} />
-
-            {/* 2. PROTECTED ROUTE: Only renders Addproducts if user is admin */}
-            {/* <Route 
-              path='/addproducts' 
-              element={isAdmin ? <Addproducts /> : <Navigate to="/" />} 
-            /> */}
-
             <Route path='/addproducts' element={<Addproducts />} />
-
             <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin />} />
             <Route path='*' element={<Notfound />} />
           </Routes>
+
+          {/* 2. Place ChatBot here so it floats on every page */}
+          <ChatBot />
 
           <Footer />
         </div>
