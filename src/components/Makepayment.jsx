@@ -1,21 +1,17 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import axios from 'axios'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader';
-import { useCart } from './CartContext'; 
+import { useCart } from './CartContext';
 
 const Makepayment = () => {
-    // Access the global cart and the getter function from Context
     const { cart, getCartTotal } = useCart();
     const navigate = useNavigate();
-
-    // Calculate total once. We use Math.round because M-Pesa APIs 
-    // often fail if sent decimals (e.g., 100.50).
-    const totalAmount = getCartTotal ? Math.round(getCartTotal()) : 0;
-
-    const img_url = "https://aceelectronics.alwaysdata.net/static/images/";
-
-    // Hooks to manage state
+    
+    // IMAGE URL: Fixed to point to your working asset folder
+    const img_url = "https://alwaysdata.net";
+    
+    const totalAmount = getCartTotal ? getCartTotal() : 0;
     const [number, setNumber] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
@@ -27,87 +23,81 @@ const Makepayment = () => {
         setSuccess("");
         setError("");
 
-        // Debugging: See exactly what is being sent to your API
-        console.log("Attempting Payment:", { phone: number, amount: totalAmount });
+        // PHONE FORMATTING: Convert 07... to 2547...
+        let formattedNumber = number.trim();
+        if (formattedNumber.startsWith("0")) {
+            formattedNumber = "254" + formattedNumber.substring(1);
+        }
 
         try {
             const formdata = new FormData();
-            formdata.append("phone", number);
-            formdata.append("amount", totalAmount); 
+            formdata.append("phone", formattedNumber);
+            formdata.append("amount", totalAmount);
 
-            const response = await axios.post("https://aceelectronics.alwaysdata.net/api/mpesa_payment", formdata);
-
-            setLoading(false);
-            setSuccess(response.data.message || "STK Push sent successfully! Check your phone.");
-        }
-        catch (err) {
-            setLoading(false);
-            // Log the full error to the console to help you debug the backend response
-            console.error("Payment API Error:", err.response?.data);
+            // NEW API ENDPOINT: Pointing to the new payment service
+            const response = await axios.post("http://leonlangat.alwaysdata.net/api/mpesa_payment", formdata);
             
-            setError(err.response?.data?.message || "Payment request failed. Ensure number is 2547XXXXXXXX.");
+            setLoading(false);
+            setSuccess(response.data.message || "STK Push sent! Please check your phone.");
+        } catch (err) {
+            setLoading(false);
+            // Catching the error message from the new API
+            setError(err.response?.data?.message || "Payment through the new service failed. Try again.");
         }
-    };
+    }
 
     return (
         <div className='container mt-4'>
             <div className='row justify-content-center'>
                 <h1 className="text-warning text-center mb-4">Make Payment - Lipa na Mpesa</h1>
-                
                 <div className="col-md-8 card shadow p-4 bg-dark text-white">
                     <div className="row">
-                        {/* Summary of Items in Tray */}
+                        {/* Summary of Items */}
                         <div className="col-md-6 border-end">
                             <h4 className="text-info">Order Summary</h4>
                             <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                                {cart.length > 0 ? (
-                                    cart.map((item, index) => (
-                                        <div key={index} className="d-flex align-items-center mb-2 border-bottom pb-2">
-                                            <img 
-                                                src={img_url + item.product_photo} 
-                                                alt={item.product_name} 
-                                                style={{ width: '50px', height: '50px', borderRadius: '5px', objectFit: 'cover' }} 
-                                            />
-                                            <div className="ms-3">
-                                                <p className="mb-0 small">{item.product_name}</p>
-                                                <b className="text-warning small">
-                                                    Ksh {parseFloat(item.product_cost || 0).toLocaleString()}
-                                                </b>
-                                            </div>
+                                {cart.map((item) => (
+                                    <div key={item.product_id} className="d-flex align-items-center mb-2 border-bottom pb-2">
+                                        <img 
+                                            src={`${img_url}${item.product_photo}`} 
+                                            alt={item.product_name} 
+                                            style={{ width: '60px', height: '60px', borderRadius: '5px', objectFit: 'cover' }} 
+                                            onError={(e) => { e.target.src = 'https://placeholder.com'; }} 
+                                        />
+                                        <div className="ms-3">
+                                            <p className="mb-0 small">{item.product_name}</p>
+                                            <b className="text-warning small">
+                                                Ksh {parseFloat(item.product_cost || 0).toLocaleString()}
+                                            </b>
                                         </div>
-                                    ))
-                                ) : (
-                                    <p>No items in cart</p>
-                                )}
+                                    </div>
+                                ))}
                             </div>
                             <hr />
-                            <h3>Total: <span className="text-warning">Ksh {totalAmount.toLocaleString()}</span></h3>
+                            <h3>Total: <span className="text-warning">Ksh {(totalAmount || 0).toLocaleString()}</span></h3>
                         </div>
 
                         {/* Payment Form */}
                         <div className="col-md-6">
                             <form onSubmit={handlesubmit} className="mt-3">
                                 {loading && <Loader />}
-                                {success && <div className="alert alert-success p-2 fs-6">{success}</div>}
-                                {error && <div className='alert alert-danger p-2 fs-6'>{error}</div>}
-
+                                {success && <h3 className="alert alert-success p-2 fs-6">{success}</h3>}
+                                {error && <h4 className='alert alert-danger p-2 fs-6'>{error}</h4>}
+                                
                                 <label className="mb-2">Enter M-Pesa Phone Number:</label>
-                                <input type="text" 
-                                    className='form-control mb-3'
-                                    placeholder='e.g. 254712345678'
-                                    required
-                                    value={number}
-                                    onChange={(e) => setNumber(e.target.value)}
+                                <input 
+                                    type="text" 
+                                    className='form-control mb-3' 
+                                    placeholder='07XXXXXXXX' 
+                                    required 
+                                    value={number} 
+                                    onChange={(e) => setNumber(e.target.value)} 
                                 />
                                 
-                                <button 
-                                    type="submit" 
-                                    className='btn btn-success w-100 fw-bold mb-3'
-                                    disabled={loading || totalAmount <= 0}
-                                >
+                                <button type="submit" className='btn btn-success w-100 fw-bold mb-3' disabled={loading || totalAmount === 0}>
                                     {loading ? "Processing..." : `Pay Ksh ${totalAmount.toLocaleString()}`}
                                 </button>
-
+                                
                                 <button type="button" className='btn btn-outline-light w-100' onClick={() => navigate("/")}>
                                     Back to Shop
                                 </button>
@@ -117,7 +107,7 @@ const Makepayment = () => {
                 </div>
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default Makepayment;

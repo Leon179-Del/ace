@@ -1,58 +1,76 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import ChatBot, { useOnRcbEvent } from 'react-chatbotify';
 
-const ChatBot = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [message, setMessage] = useState("");
-    const [chat, setChat] = useState([{ sender: "bot", text: "Hi! How can I help you today?" }]);
+const AceBot = () => {
+  // Expanded product database for electrical gadgets and phones
+  const products = [
+    // Phones
+    { name: "iPhone 15 Pro", price: "Ksh 150,000", features: "A17 Pro chip, Titanium design, 48MP camera." },
+    { name: "iPhone 17 Pro Max", price: "Coming Soon", features: "The latest flagship with advanced AI integration." },
+    { name: "Samsung S24 Ultra", price: "Ksh 165,000", features: "200MP camera, built-in S Pen, and Galaxy AI." },
+    { name: "Google Pixel 8", price: "Ksh 95,000", features: "Best-in-class camera and pure Android experience." },
+    
+    // Electrical Gadgets & Appliances
+    { name: "MacBook Air M3", price: "Ksh 180,000", features: "Liquid Retina display, fanless silent design." },
+    { name: "Hisense 55-inch TV", price: "Ksh 55,000", features: "4K UHD Smart TV with pre-installed streaming apps." },
+    { name: "Sony WH-1000XM5", price: "Ksh 45,000", features: "Industry-leading noise cancellation headphones." },
+    { name: "Dell XPS 13", price: "Ksh 140,000", features: "InfinityEdge display and high-performance Intel processor." }
+  ];
 
-    const sendMessage = async (e) => {
-        e.preventDefault();
-        if (!message) return;
+  // Event listener to clear chat when the window is closed
+  useOnRcbEvent((event) => {
+    if (event.name === "RcbToggleChatWindowEvent" && !event.data.isOpen) {
+      window.sessionStorage.removeItem("ace_bot_session");
+      window.location.reload(); // Restarts the flow and clears memory
+    }
+  }, ["RcbToggleChatWindowEvent"]);
 
-        const newChat = [...chat, { sender: "user", text: message }];
-        setChat(newChat);
-        setMessage("");
+  const flow = {
+    start: {
+      message: "Hello! I am Ace Bot, your assistant at Ace Electronics. How can I help you today?",
+      path: "process_input"
+    },
+    process_input: {
+      user: true,
+      message: (params) => {
+        const input = params.userInput.toLowerCase();
 
-        try {
-            const res = await axios.post("https://aceelectronics.alwaysdata.net/api/chatbot", { message });
-            setChat([...newChat, { sender: "bot", text: res.data.response }]);
-        } catch (err) {
-            setChat([...newChat, { sender: "bot", text: "Sorry, I'm having trouble connecting." }]);
+        // 1. Search gadgets and phones
+        const foundProduct = products.find(p => input.includes(p.name.toLowerCase()));
+        if (foundProduct) {
+          return `${foundProduct.name} is available for ${foundProduct.price}. ${foundProduct.features} We deliver countrywide and have local electricians for your installation!`;
         }
-    };
 
-    return (
-        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1000 }}>
-            {isOpen && (
-                <div className="card bg-dark text-white border-info" style={{ width: '300px', marginBottom: '10px' }}>
-                    <div className="card-header border-info d-flex justify-content-between">
-                        <span>Ace Assistant</span>
-                        <button className="btn-close btn-close-white" onClick={() => setIsOpen(false)}></button>
-                    </div>
-                    <div className="card-body" style={{ height: '300px', overflowY: 'auto' }}>
-                        {chat.map((msg, i) => (
-                            <div key={i} className={`mb-2 ${msg.sender === 'user' ? 'text-end' : 'text-start'}`}>
-                                <small className={`p-2 rounded d-inline-block ${msg.sender === 'user' ? 'bg-primary' : 'bg-secondary'}`}>
-                                    {msg.text}
-                                </small>
-                            </div>
-                        ))}
-                    </div>
-                    <form onSubmit={sendMessage} className="card-footer border-info p-2">
-                        <div className="input-group">
-                            <input type="text" className="form-control form-control-sm bg-dark text-white border-secondary" 
-                                value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type here..." />
-                            <button className="btn btn-info btn-sm">Send</button>
-                        </div>
-                    </form>
-                </div>
-            )}
-            <button className="btn btn-info rounded-circle shadow-lg" style={{ width: '60px', height: '60px' }} onClick={() => setIsOpen(!isOpen)}>
-                🤖
-            </button>
-        </div>
-    );
+        // 2. Ace Electronics Information
+        if (input.includes("about") || input.includes("ace") || input.includes("who")) {
+          return "Ace Electronics is an authentic company selling quality electronics directly from the manufacturer. We offer countrywide delivery and provide jobs to local electricians who register as service providers in their counties.";
+        }
+
+        // 3. Jobs & Electrician Info
+        if (input.includes("job") || input.includes("electrician") || input.includes("register")) {
+          return "Electricians can register as service providers in their home counties to get professional installation jobs for our customers!";
+        }
+
+        // 4. Broad categories
+        if (input.includes("phone") || input.includes("gadget") || input.includes("appliance")) {
+          return "We stock authentic phones and electrical gadgets direct from the manufacturer. Ask about a specific model like 'iPhone 17' or 'Sony Headphones'!";
+        }
+
+        return "I'm here to help! Ask about our gadgets, countrywide delivery, or how electricians can join our network.";
+      },
+      path: "process_input"
+    }
+  };
+
+  const settings = {
+    general: { primaryColor: "#1e293b", secondaryColor: "#38bdf8" },
+    header: { title: "Ace Bot", showAvatar: true },
+    chatButton: { icon: "⚡" },
+    chatHistory: { storageKey: "ace_bot_session", disabled: true },
+    session: { remember: false }
+  };
+
+  return <ChatBot flow={flow} settings={settings} />;
 };
 
-export default ChatBot;
+export default AceBot;
